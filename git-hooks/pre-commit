@@ -1,0 +1,21 @@
+#!/bin/sh
+# Pre-commit hook: format check + static analysis
+# Skip with: git commit --no-verify
+
+echo "🔍 Running pre-commit checks..."
+
+echo "  → Checking code format..."
+dart format --output none --set-exit-if-changed lib/ test/
+if [ $? -ne 0 ]; then
+    echo "❌ Format check failed. Run 'dart format lib/ test/' to fix."
+    exit 1
+fi
+
+echo "  → Running static analysis..."
+flutter analyze
+if [ $? -ne 0 ]; then
+    echo "❌ Static analysis failed. Fix the issues above."
+    exit 1
+fi
+
+echo "✅ All pre-commit checks passed!"

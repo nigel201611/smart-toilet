@@ -1,0 +1,14 @@
+#!/bin/sh
+# Pre-push hook: run tests
+# Skip with: git push --no-verify
+
+echo "🧪 Running pre-push checks..."
+
+echo "  → Running tests..."
+flutter test
+if [ $? -ne 0 ]; then
+    echo "❌ Tests failed. Fix the issues before pushing."
+    exit 1
+fi
+
+echo "✅ All pre-push checks passed!"
